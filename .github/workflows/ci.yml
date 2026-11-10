@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  regression:
+    name: 回归测试（16 个例题 × 93 项答案比对）
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    env:
+      # Windows runner 的默认代码页不是 UTF-8，不设这个变量，
+      # 脚本打印中文会 UnicodeEncodeError
+      PYTHONIOENCODING: utf-8
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 运行全量回归
+        run: python run_all.py
+
+      - name: 检查中文输出
+        shell: bash
+        run: |
+          python ch01_linear_programming/ex1_4_warehouse.py | tee out.txt
+          grep -q "一致" out.txt && echo "中文输出正常 ✅"
+
+      - name: 中文字体冒烟测试（绘图不应崩溃）
+        shell: bash
+        run: python ch01_linear_programming/ex1_9_portfolio.py
+
+  lint:
+    name: 代码风格检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - name: ruff check
+        run: ruff check --select=E,F,W --line-length=100 .
+      - name: ruff format --check
+        continue-on-error: true
+        run: ruff format --check --line-length=100 .
