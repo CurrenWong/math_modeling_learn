@@ -19,15 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-补充说明（不属于 MIT 协议正文）：
-
-本仓库中的「代码、注释、学习文档、教学报告」为原创内容，适用上述 MIT 协议。
-
-本仓库引用了《数学建模算法与应用（第 3 版）》（司守奎、孙玺菁 主编，
-国防工业出版社）一书的例题题面与表格数据，用于教学对照。
-该教材及其版权归原出版方所有，**原书正文与 EPUB 不随本仓库分发**，
-请自行购买或前往正规渠道获取。
-仓库中对书中结论的质疑（见 README「发现的书中问题」）是作者独立计算与验证的结果。
