@@ -1,0 +1,4 @@
+# 生成《教学报告》长图（report/ 目录）才需要
+-r requirements.txt
+playwright>=1.40   # 渲染 report.html -> PNG
+Pillow>=10.0       # PNG 体积压缩（可选，缺了只是图大一点）
